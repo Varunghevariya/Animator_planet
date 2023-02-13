@@ -1,4 +1,3 @@
-import 'dart:math';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -24,7 +23,30 @@ class _DetailsState extends State<Details> {
     double h = MediaQuery.of(context).size.height;
     double w = MediaQuery.of(context).size.width;
     return Scaffold(
-      appBar: AppBar(title: Text("${s[0]}"),),
+      appBar: AppBar(
+        title: Text(
+          "${s[0]}",
+          style: TextStyle(fontWeight: FontWeight.w600, color: Colors.white70),
+        ),
+        centerTitle: true,
+        backgroundColor: Colors.black,
+        leading: GestureDetector(
+          onTap: () {
+            Navigator.pop(context);
+          },
+          child: const Icon(
+            Icons.arrow_back_ios_new_outlined,
+            size: 25,
+            color: Colors.white,
+          ),
+        ),
+      ),
+      body: Container(
+        decoration: BoxDecoration(
+            image: DecorationImage(
+                image: AssetImage("build/assets/image/sky.png"),
+                fit: BoxFit.fill)),
+      ),
     );
   }
 }

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:animation_list/animation_list.dart';
 import 'details.dart';
 
 void main() {
@@ -8,7 +7,7 @@ void main() {
       debugShowCheckedModeBanner: false,
       routes: {
         '/': (context) => const GelexyApp(),
-     //   'details': (context) => const Details(),
+        'details': (context) => const Details(),
       },
     ),
   );
@@ -88,14 +87,6 @@ class _GelexyAppState extends State<GelexyApp> {
           'Uranus is the seventh planet from the Sun, and has the third-largest diameter inour solar system. It was the first planet found with the aid of a telescope, Uranus was discovered in 1781 by astronomer William Herschel, although he originally thought it was either a comet or a star.',
     },
   ];
-  Widget _GelexyApp(String name,String nick,String details,String pic) {
-    return Container(
-        height: 100,
-        margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(25)),
-        ));
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -111,17 +102,91 @@ class _GelexyAppState extends State<GelexyApp> {
         backgroundColor: Colors.black,
         centerTitle: true,
       )),
-      body: SingleChildScrollView(
+      body: Container(
+        decoration: BoxDecoration(
+            image: DecorationImage(
+                image: AssetImage("build/assets/image/sky.png"),
+                fit: BoxFit.fill)),
+        child: SingleChildScrollView(
           scrollDirection: Axis.vertical,
-      child: AnimationList(
-        children: planet_List.map((e) {
-          return _GelexyApp(e["name"], e["nick"], e["details"], e["pic"]);
+          child: Column(
+            children: planet_List.map((e) {
+              return Center(
+                child: Container(
+                  margin: const EdgeInsets.all(30),
+                  height: h / 4,
+                  width: w / 1.02,
+                  child: Stack(
+                    children: [
+                      Align(
+                        alignment: Alignment(-1, 0),
+                        child: AnimatedRotation(
+                          turns: 1,
+                          duration: Duration(minutes: 20),
+                          curve: Curves.ease,
 
-        }).toList(),
-      duration: 1000,
+                          child: Image.asset(
+                            e["pic"],
+                            width: 170,
+                          ),
+                        ),
+                      ),
+                      Align(
+                        alignment: const Alignment(0.9, -0.6),
+                        child: Text(
+                          "Name: ${e["name"]}",
+                          textAlign: TextAlign.start,
+                          style: const TextStyle(
+                              fontSize: 25,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.white),
+                        ),
+                      ),
+                      Align(
+                        alignment: Alignment(0.9, -0.1),
+                        child: Text(
+                          "${e["nick"]}",
+                          textAlign: TextAlign.start,
+                          style: const TextStyle(
+                              fontSize: 20, color: Colors.white),
+                        ),
+                      ),
+                      Align(
+                        alignment: Alignment(0.9, 0.5),
+                        child: InkWell(
+                          onTap: (){
+                            List w = [
+                              e["name"],
+                              e["nick"],
+                              e["pic"],
+                              e["details"]
+                            ];
+                            Navigator.pushNamed(context, "details",arguments: w);
+                          },
+                          child: Container(
+                            height: 35,
+                            width: 120,
+                            decoration: BoxDecoration(
+                                color: Colors.black,
+                                borderRadius: BorderRadius.circular(20),
+                                border:
+                                    Border.all(width: 2, color: Colors.white)),
+                            child: Center(
+                                child: Text(
+                              "Know More",
+                              style: TextStyle(color: Colors.white),
+                            )),
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              );
+            }).toList(),
+          ),
+        ),
       ),
-      ),
-      backgroundColor: Colors.black,
     );
   }
 }
