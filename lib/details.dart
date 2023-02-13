@@ -1,8 +1,9 @@
+
 import 'package:flutter/material.dart';
 
 void main() {
   runApp(
-    MaterialApp(
+    const MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Details(),
     ),
@@ -16,7 +17,24 @@ class Details extends StatefulWidget {
   State<Details> createState() => _DetailsState();
 }
 
-class _DetailsState extends State<Details> {
+class _DetailsState extends State<Details> with TickerProviderStateMixin {
+  late AnimationController animationController;
+  @override
+  @override
+  void initState() {
+// TODO: implement initState
+    super.initState();
+    animationController =
+    AnimationController(vsync: this, duration: const Duration(seconds: 5))
+      ..repeat();
+  }
+  @override
+  void dispose() {
+// TODO: implement dispose
+    super.dispose();
+    animationController.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     List s = ModalRoute.of(context)!.settings.arguments as List;
@@ -26,10 +44,11 @@ class _DetailsState extends State<Details> {
       appBar: AppBar(
         title: Text(
           "${s[0]}",
-          style: TextStyle(fontWeight: FontWeight.w600, color: Colors.white),
+          style:
+              const TextStyle(fontWeight: FontWeight.w600, color: Colors.white),
         ),
         centerTitle: true,
-        backgroundColor: Colors.black12,
+        backgroundColor: Colors.black,
         leading: GestureDetector(
           onTap: () {
             Navigator.pop(context);
@@ -42,7 +61,7 @@ class _DetailsState extends State<Details> {
         ),
       ),
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           image: DecorationImage(
               image: AssetImage("build/assets/image/sky.png"),
               fit: BoxFit.fill),
@@ -50,16 +69,19 @@ class _DetailsState extends State<Details> {
         child: Stack(
           children: [
             Align(
-              alignment: (Alignment(0, -1)),
-              child: Image.asset(
-                "${s[2]}",
-                width: 280,
+              alignment: (const Alignment(0, -1)),
+              child: RotationTransition(
+                turns: animationController,
+                child: Image.asset(
+                  "${s[2]}",
+                  width: 280,
+                ),
               ),
             ),
             Align(
-              alignment: Alignment(0, -0.1),
+              alignment: const Alignment(0, -0.1),
               child: Container(
-                margin: EdgeInsets.all(20),
+                margin: const EdgeInsets.all(20),
                 height: h / 12,
                 width: w,
                 decoration: BoxDecoration(
@@ -69,7 +91,7 @@ class _DetailsState extends State<Details> {
                 alignment: Alignment.center,
                 child: Text(
                   "${s[0]}",
-                  style: TextStyle(
+                  style: const TextStyle(
                       fontSize: 40,
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
@@ -77,11 +99,11 @@ class _DetailsState extends State<Details> {
                 ),
               ),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             Align(
-              alignment: Alignment(0, 0.15),
+              alignment: const Alignment(0, 0.15),
               child: Container(
-                margin: EdgeInsets.all(20),
+                margin: const EdgeInsets.all(20),
                 height: h / 12,
                 width: w,
                 decoration: BoxDecoration(
@@ -99,9 +121,9 @@ class _DetailsState extends State<Details> {
               ),
             ),
             Align(
-              alignment: Alignment(0,1),
+              alignment: const Alignment(0, 1),
               child: Container(
-                margin: EdgeInsets.all(20),
+                margin: const EdgeInsets.all(20),
                 height: h / 3.3,
                 width: w,
                 decoration: BoxDecoration(
@@ -109,17 +131,19 @@ class _DetailsState extends State<Details> {
                     border: Border.all(width: 5, color: Colors.white),
                     borderRadius: BorderRadius.circular(50)),
                 child: Center(
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 8,right: 8),
-                      child: Text(
-                  "${s[3]}",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                      color: Colors.white,
-                      letterSpacing: 2,fontSize: 17,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 8, right: 8),
+                    child: Text(
+                      "${s[3]}",
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        letterSpacing: 2,
+                        fontSize: 17,
+                      ),
+                    ),
                   ),
                 ),
-                    )),
               ),
             )
           ],

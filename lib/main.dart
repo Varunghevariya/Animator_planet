@@ -14,13 +14,30 @@ void main() {
 }
 
 class GelexyApp extends StatefulWidget {
+
   const GelexyApp({Key? key}) : super(key: key);
 
   @override
   State<GelexyApp> createState() => _GelexyAppState();
 }
 
-class _GelexyAppState extends State<GelexyApp> {
+class _GelexyAppState extends State<GelexyApp>  with TickerProviderStateMixin {
+  late AnimationController animationController;
+  @override
+  @override
+  void initState() {
+// TODO: implement initState
+    super.initState();
+    animationController =
+    AnimationController(vsync: this, duration: const Duration(seconds: 5))
+      ..repeat();
+  }
+  @override
+  void dispose() {
+// TODO: implement dispose
+    super.dispose();
+    animationController.dispose();
+  }
   final List<Map<dynamic, dynamic>> planet_List = [
     {
       'name': 'Sun',
@@ -103,7 +120,7 @@ class _GelexyAppState extends State<GelexyApp> {
         centerTitle: true,
       )),
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
             image: DecorationImage(
                 image: AssetImage("build/assets/image/sky.png"),
                 fit: BoxFit.fill)),
@@ -119,11 +136,9 @@ class _GelexyAppState extends State<GelexyApp> {
                   child: Stack(
                     children: [
                       Align(
-                        alignment: Alignment(-1, 0),
-                        child: AnimatedRotation(
-                          turns: 1,
-                          duration: Duration(hours: 40),
-                          curve: Curves.ease,
+                        alignment: const Alignment(-1, 0),
+                        child: RotationTransition(
+                          turns: animationController,
                           child: Image.asset(
                             e["pic"],
                             width: 170,
@@ -142,7 +157,7 @@ class _GelexyAppState extends State<GelexyApp> {
                         ),
                       ),
                       Align(
-                        alignment: Alignment(0.9, -0.1),
+                        alignment: const Alignment(0.9, -0.1),
                         child: Text(
                           "${e["nick"]}",
                           textAlign: TextAlign.start,
@@ -151,7 +166,7 @@ class _GelexyAppState extends State<GelexyApp> {
                         ),
                       ),
                       Align(
-                        alignment: Alignment(0.9, 0.5),
+                        alignment: const Alignment(0.9, 0.5),
                         child: InkWell(
                           onTap: (){
                             List w = [
@@ -170,7 +185,7 @@ class _GelexyAppState extends State<GelexyApp> {
                                 borderRadius: BorderRadius.circular(20),
                                 border:
                                     Border.all(width: 2, color: Colors.white)),
-                            child: Center(
+                            child: const Center(
                                 child: Text(
                               "Know More",
                               style: TextStyle(color: Colors.white),
